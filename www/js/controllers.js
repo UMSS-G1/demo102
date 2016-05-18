@@ -41,15 +41,15 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+.controller('PlaylistsCtrl', function($scope, UserService) {
+  
+  $scope.users = [];
+
+  UserService.getAllUsers()
+  .then(function(response){
+    $scope.users = response.data.results;
+  });
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
@@ -63,12 +63,15 @@ angular.module('starter.controllers', [])
   $scope.saveComic = saveComic;
   $scope.deleteComic = deleteComic;
   $scope.showOptions = showOptions;
+  $scope.editComic = editComic;
+  $scope.isNew = true;
   $scope.comic = {};
   $scope.modal = null;
 
   $ionicModal.fromTemplateUrl('templates/comic-modal.html', {
     scope: $scope
   })
+
   .then(function(modal){
     $scope.modal = modal;
   });
@@ -94,8 +97,9 @@ angular.module('starter.controllers', [])
     },
   ];
 
-
   function showModal(){
+    $scope.isNew = true;
+    $scope.comic = {};
     $scope.modal.show();
   }
 
@@ -104,9 +108,11 @@ angular.module('starter.controllers', [])
   }
 
   function saveComic(){
-    $scope.comic.picture = 'ionic.png';
-    $scope.comics.push( $scope.comic );
-    $scope.comic = {};
+    if($scope.isNew){
+      $scope.comic.picture = 'ionic.png';
+      $scope.comics.push( $scope.comic );
+      $scope.comic = {};
+    }
     $scope.modal.hide();
   }
 
@@ -114,7 +120,7 @@ angular.module('starter.controllers', [])
     $scope.comics.splice( index, 1 );
   }
 
-  function showOptions( index ){
+  function showOptions( indexComic ){
     
     $ionicActionSheet.show({
       buttons: [
@@ -125,14 +131,22 @@ angular.module('starter.controllers', [])
       cancelText: 'Cancel',
       titleText: "Options",
       destructiveButtonClicked: function(){
-        $scope.deleteComic( index );
+        $scope.deleteComic( indexComic );
         return true;
       },
-      buttonClicked: function(index){
-        console.log(index);
+      buttonClicked: function(indexButton){
+        if(indexButton == 1){
+          $scope.editComic( indexComic );
+        }
         return true;
       }
     });
+  }
+
+  function editComic( index ){
+    $scope.isNew = false;
+    $scope.comic = $scope.comics[index];
+    $scope.modal.show();
   }
 
 });
