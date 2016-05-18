@@ -73,7 +73,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     url: '/comics',
     views: {
       'menuContent': {
-        templateUrl: 'templates/comics.html'
+        templateUrl: 'templates/comics.html',
+        controller: 'ComicsCtrl'
       }
     }
   });

@@ -53,4 +53,30 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+
+.controller('ComicsCtrl', function($scope){
+  
+  $scope.comics = [
+    {
+      title: 'Mafalda',
+      author: 'Quino',
+      picture: 'mafalda.jpg',
+      number: 23 
+    },
+    {
+      title: 'Calvin and Hobbes',
+      author: '‎Bill Watterson',
+      picture: 'calvin.png',
+      number: 46 
+    },
+    {
+      title: 'Charlie Bronw',
+      author: 'Charles M. Schulz',
+      picture: 'charlie.png',
+      number: 96 
+    },
+  ];
+
+
 });
