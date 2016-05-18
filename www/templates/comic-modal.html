@@ -1,0 +1,38 @@
+<ion-modal-view>
+
+	<ion-header-bar class="bar-assertive">
+		<h2 class="title">Add new Comic</h2>
+		<div class="buttons">
+			<button ng-click="closeModal()" class="button icon ion-close"></button>
+		</div>
+	</ion-header-bar>
+
+	<ion-content>
+		<form ng-submit="saveComic()">
+			
+			<div class="list">
+				
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Title:</span>
+					<input type="text" placeholder="Title" ng-model="comic.title">
+				</label>
+
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Author:</span>
+					<input type="text" placeholder="Author" ng-model="comic.author">
+				</label>
+
+				<label class="item item-input item-floating-label">
+					<span class="input-label">Number:</span>
+					<input type="number" placeholder="Number" ng-model="comic.number">
+				</label>
+
+			</div>
+
+			<div class="padding">
+				<button type="submit" class="button button-assertive button-block">Save</button>
+			</div>
+
+		</form>
+	</ion-content>
+</ion-modal-view>

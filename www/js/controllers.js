@@ -55,8 +55,24 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('ComicsCtrl', function($scope){
+.controller('ComicsCtrl', function($scope, $ionicModal, $ionicActionSheet){
   
+
+  $scope.showModal = showModal;
+  $scope.closeModal = closeModal;
+  $scope.saveComic = saveComic;
+  $scope.deleteComic = deleteComic;
+  $scope.showOptions = showOptions;
+  $scope.comic = {};
+  $scope.modal = null;
+
+  $ionicModal.fromTemplateUrl('templates/comic-modal.html', {
+    scope: $scope
+  })
+  .then(function(modal){
+    $scope.modal = modal;
+  });
+
   $scope.comics = [
     {
       title: 'Mafalda',
@@ -78,5 +94,45 @@ angular.module('starter.controllers', [])
     },
   ];
 
+
+  function showModal(){
+    $scope.modal.show();
+  }
+
+  function closeModal(){
+    $scope.modal.hide();
+  }
+
+  function saveComic(){
+    $scope.comic.picture = 'ionic.png';
+    $scope.comics.push( $scope.comic );
+    $scope.comic = {};
+    $scope.modal.hide();
+  }
+
+  function deleteComic(index){
+    $scope.comics.splice( index, 1 );
+  }
+
+  function showOptions( index ){
+    
+    $ionicActionSheet.show({
+      buttons: [
+        { text: '<i class="icon ion-share"></i> Share' },
+        { text: '<i class="icon ion-edit"></i> Edit' }
+      ],
+      destructiveText: "<i class='icon ion-trash-b'></i> Delete",
+      cancelText: 'Cancel',
+      titleText: "Options",
+      destructiveButtonClicked: function(){
+        $scope.deleteComic( index );
+        return true;
+      },
+      buttonClicked: function(index){
+        console.log(index);
+        return true;
+      }
+    });
+  }
 
 });
