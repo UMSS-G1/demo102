@@ -22,7 +22,10 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-crosswalk-webview",
-    "cordova-sqlite-storage"
+    "cordova-sqlite-storage",
+    "cordova-plugin-camera",
+    "cordova-plugin-vibration",
+    "cordova-plugin-media-capture"
   ],
   "cordovaPlatforms": [
     "android"

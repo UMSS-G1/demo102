@@ -29,6 +29,21 @@
 
 			</div>
 
+			<div class="row">
+				<div class="col">
+					<button type="button" ng-click="choosePicture()" class="button icon-left ion-images button-dark button-block">Library</button>
+				</div>
+				<div class="col">
+					<button type="button" ng-click="takePicture()" class="button icon-left ion-camera button-dark button-block">Camera</button>
+				</div>
+			</div>
+
+			<div class="padding" ng-show="comic.cover">
+				<img class="full-image" ng-src="{{ comic.cover }}" alt="photo">
+			</div>
+
+			
+
 			<div class="padding">
 				<button type="submit" class="button button-assertive button-block">Save</button>
 			</div>

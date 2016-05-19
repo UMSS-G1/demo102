@@ -61,7 +61,7 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('ComicsCtrl', function($scope, $ionicModal, $ionicActionSheet, ComicService){
+.controller('ComicsCtrl', function($scope, $ionicModal, $ionicActionSheet, ComicService, $cordovaCamera, $cordovaVibration, $cordovaCapture){
 
 
   $scope.showModal = showModal;
@@ -70,6 +70,9 @@ angular.module('starter.controllers', [])
   $scope.deleteComic = deleteComic;
   $scope.showOptions = showOptions;
   $scope.editComic = editComic;
+  $scope.choosePicture = choosePicture;
+  $scope.takePicture = takePicture;
+  $scope.recordingAudio = recordingAudio;
   $scope.isNew = true;
   $scope.comic = {};
   $scope.modal = null;
@@ -82,10 +85,12 @@ angular.module('starter.controllers', [])
     $scope.modal = modal;
   });
 
+  /*
   ComicService.getAllComics()
   .then(function( comics ){
     $scope.comics = comics;
   });
+  */
 
   
 
@@ -103,7 +108,6 @@ angular.module('starter.controllers', [])
 
   function saveComic(){
     if($scope.isNew){
-      $scope.comic.picture = 'ionic.png';
       $scope.comics.push( $scope.comic );
       ComicService.createComic( $scope.comic.title, $scope.comic.author, $scope.comic.cover, $scope.comic.year );
       $scope.comic = {};
@@ -116,6 +120,8 @@ angular.module('starter.controllers', [])
   }
 
   function showOptions( indexComic ){
+
+    $cordovaVibration.vibrate(300);
     
     $ionicActionSheet.show({
       buttons: [
@@ -142,6 +148,64 @@ angular.module('starter.controllers', [])
     $scope.isNew = false;
     $scope.comic = $scope.comics[index];
     $scope.modal.show();
+  }
+
+  function choosePicture(){
+
+    var options = {
+      quality: 100,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+      allowEdit: false,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 500,
+      targetHeight: 500,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false,
+      correctOrientation:true
+    };
+
+    $cordovaCamera.getPicture( options )
+    .then(function( imgData ){
+      $scope.comic.cover = "data:image/jpeg;base64," + imgData;
+    });
+  }
+
+  function takePicture(){
+    var options = {
+      quality: 100,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      allowEdit: false,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 500,
+      targetHeight: 500,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false,
+      correctOrientation:true
+    };
+
+    $cordovaCamera.getPicture( options )
+    .then(function( imgData ){
+      $scope.comic.cover = "data:image/jpeg;base64," + imgData;
+    });
+
+  }
+
+  function recordingAudio(){
+
+    var options = {
+      limit: 3,
+      duration: 10
+    };
+
+    $cordovaCapture.captureAudio( options )
+    .then(function( rta ){
+      console.log( rta );
+    })
+    .catch(function( error ){
+      console.log( error );
+    });
   }
 
 });

@@ -6,6 +6,12 @@
 
 	<ion-content>
 
+		<div class="padding">
+			<button ng-click="recordingAudio()" class="button icon-left button-dark button-block ion-mic-a">Grabar</button>
+		</div>
+		
+		
+
 		<div class="card" ng-show="comics.length == 0">
 			<div class="item item-text-wrap">
 		    No hay nada en la lista, agrega un comic nuevo porfavor!!
@@ -14,7 +20,7 @@
 
 		<ion-list>
 			<ion-item on-hold="showOptions( $index )" class="item-thumbnail-left" ng-repeat="comic in comics">
-				<img ng-src="img/{{ comic.picture }}" alt="">
+				<img ng-src="{{ comic.cover }}" alt="">
 				<h2>{{ comic.title }}</h2>
 				<p>{{ comic.author }}</p>
 				<ion-option-button ng-click="deleteComic( $index )" class="button-assertive">
