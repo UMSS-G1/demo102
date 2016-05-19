@@ -61,8 +61,8 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('ComicsCtrl', function($scope, $ionicModal, $ionicActionSheet){
-  
+.controller('ComicsCtrl', function($scope, $ionicModal, $ionicActionSheet, ComicService){
+
 
   $scope.showModal = showModal;
   $scope.closeModal = closeModal;
@@ -73,35 +73,23 @@ angular.module('starter.controllers', [])
   $scope.isNew = true;
   $scope.comic = {};
   $scope.modal = null;
+  $scope.comics = [];
 
   $ionicModal.fromTemplateUrl('templates/comic-modal.html', {
     scope: $scope
   })
-
   .then(function(modal){
     $scope.modal = modal;
   });
 
-  $scope.comics = [
-    {
-      title: 'Mafalda',
-      author: 'Quino',
-      picture: 'mafalda.jpg',
-      number: 23 
-    },
-    {
-      title: 'Calvin and Hobbes',
-      author: '‎Bill Watterson',
-      picture: 'calvin.png',
-      number: 46 
-    },
-    {
-      title: 'Charlie Bronw',
-      author: 'Charles M. Schulz',
-      picture: 'charlie.png',
-      number: 96 
-    },
-  ];
+  ComicService.getAllComics()
+  .then(function( comics ){
+    $scope.comics = comics;
+  });
+
+  
+
+  
 
   function showModal(){
     $scope.isNew = true;
@@ -117,6 +105,7 @@ angular.module('starter.controllers', [])
     if($scope.isNew){
       $scope.comic.picture = 'ionic.png';
       $scope.comics.push( $scope.comic );
+      ComicService.createComic( $scope.comic.title, $scope.comic.author, $scope.comic.cover, $scope.comic.year );
       $scope.comic = {};
     }
     $scope.modal.hide();
