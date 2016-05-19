@@ -4,6 +4,8 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
+var DB = null;
+
 angular.module('starter', [
   'ionic', 
   'ngCordova',
@@ -11,7 +13,7 @@ angular.module('starter', [
   'starter.services'
 ])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $cordovaSQLite) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -24,6 +26,24 @@ angular.module('starter', [
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+
+    //Create a DB
+    DB = $cordovaSQLite.openDB({
+      name: 'app.db',
+      location: 'default',
+      iosDatabaseLocation: 'Library'
+    });
+    
+    //Then create the tables
+    var sql = "CREATE TABLE IF NOT EXISTS comics (id integer PRIMARY KEY AUTOINCREMENT, title text, author text, cover text, year integer)";
+    $cordovaSQLite.execute(DB, sql)
+    .then(function( response ){
+      console.log( response );
+    })
+    .catch(function( error ){
+      console.log( error );
+    });
   });
 })
 

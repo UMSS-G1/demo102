@@ -14,7 +14,7 @@
 
 		<ion-list>
 			<ion-item on-hold="showOptions( $index )" class="item-thumbnail-left" ng-repeat="comic in comics">
-				<img ng-src="/img/{{ comic.picture }}" alt="">
+				<img ng-src="img/{{ comic.picture }}" alt="">
 				<h2>{{ comic.title }}</h2>
 				<p>{{ comic.author }}</p>
 				<ion-option-button ng-click="deleteComic( $index )" class="button-assertive">

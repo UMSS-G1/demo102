@@ -41,13 +41,19 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope, UserService) {
+.controller('PlaylistsCtrl', function($scope, UserService, $ionicLoading) {
   
   $scope.users = [];
+
+  $ionicLoading.show();
 
   UserService.getAllUsers()
   .then(function(response){
     $scope.users = response.data.results;
+    $ionicLoading.hide();
+  })
+  .catch(function(){
+    $ionicLoading.hide();
   });
 
 })
