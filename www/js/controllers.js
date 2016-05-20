@@ -61,7 +61,7 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('ComicsCtrl', function($scope, $ionicModal, $ionicActionSheet, ComicService, $cordovaCamera, $cordovaVibration, $cordovaCapture){
+.controller('ComicsCtrl', function($scope, $ionicModal, $ionicActionSheet, ComicService, $cordovaCamera, $cordovaVibration, $cordovaCapture, $cordovaGeolocation){
 
 
   $scope.showModal = showModal;
@@ -73,6 +73,7 @@ angular.module('starter.controllers', [])
   $scope.choosePicture = choosePicture;
   $scope.takePicture = takePicture;
   $scope.recordingAudio = recordingAudio;
+  $scope.getPosition = getPosition;
   $scope.isNew = true;
   $scope.comic = {};
   $scope.modal = null;
@@ -205,6 +206,20 @@ angular.module('starter.controllers', [])
     })
     .catch(function( error ){
       console.log( error );
+    });
+  }
+
+  function getPosition(){
+
+    var options = {
+      timeout: 3000,
+      enableHighAccuracy: false,
+      maximumAge: 10000
+    };
+
+    $cordovaGeolocation.getCurrentPosition( options )
+    .then(function( position ){
+      console.log( position );
     });
   }
 
