@@ -7,13 +7,13 @@
 var DB = null;
 
 angular.module('starter', [
-  'ionic', 
+  'ionic','ionic.service.core', 
   'ngCordova',
   'starter.controllers',
   'starter.services'
 ])
 
-.run(function($ionicPlatform, $cordovaSQLite) {
+.run(function($ionicPlatform, $cordovaSQLite, $cordovaBatteryStatus, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -44,11 +44,21 @@ angular.module('starter', [
     .catch(function( error ){
       console.log( error );
     });
+
+
+    $rootScope.$on('$cordovaBatteryStatus:status', function(result){
+      console.log(result);
+      console.log(result.level);
+      console.log(result.isPlugged);
+    });
+
   });
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
+
+  
 
     .state('app', {
     url: '/app',

@@ -505,7 +505,7 @@ angular.module('ngCordova.plugins.batteryStatus', [])
     };
 
     document.addEventListener('deviceready', function () {
-      if (navigator.battery) {
+      if (navigator.battery) {    
         $window.addEventListener('batterystatus', batteryStatus, false);
         $window.addEventListener('batterycritical', batteryCritical, false);
         $window.addEventListener('batterylow', batteryLow, false);

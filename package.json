@@ -26,7 +26,9 @@
     "cordova-plugin-camera",
     "cordova-plugin-vibration",
     "cordova-plugin-media-capture",
-    "cordova-plugin-geolocation"
+    "cordova-plugin-geolocation",
+    "cordova-plugin-battery-status",
+    "cordova-plugin-device-motion"
   ],
   "cordovaPlatforms": [
     "android"

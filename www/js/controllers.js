@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $state) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -32,12 +32,18 @@ angular.module('starter.controllers', [])
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
+    if($scope.loginData.username == 'nicolas' && $scope.loginData.password == "123" ){
+
+      $timeout(function() {
+        $scope.closeLogin();
+        $scope.loginData = {};
+        $state.go('app.comics');
+      }, 1000);
+    }
 
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
+    
   };
 })
 
@@ -61,7 +67,7 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
-.controller('ComicsCtrl', function($scope, $ionicModal, $ionicActionSheet, ComicService, $cordovaCamera, $cordovaVibration, $cordovaCapture, $cordovaGeolocation){
+.controller('ComicsCtrl', function($scope, $ionicModal, $ionicActionSheet, ComicService, $cordovaCamera, $cordovaVibration, $cordovaCapture, $cordovaGeolocation, $cordovaDeviceMotion){
 
 
   $scope.showModal = showModal;
@@ -74,6 +80,7 @@ angular.module('starter.controllers', [])
   $scope.takePicture = takePicture;
   $scope.recordingAudio = recordingAudio;
   $scope.getPosition = getPosition;
+  $scope.start = start;
   $scope.isNew = true;
   $scope.comic = {};
   $scope.modal = null;
@@ -221,6 +228,27 @@ angular.module('starter.controllers', [])
     .then(function( position ){
       console.log( position );
     });
+  }
+
+  function start(){
+    var options = {
+      frequency: 20000
+    };
+
+    var watch = $cordovaDeviceMotion.watchAcceleration(options);
+
+    watch.then(
+      null,
+      function(error){
+        console.log( error );
+      },
+      function(result){
+        console.log(result.x);
+        console.log(result.y);
+        console.log(result.z);
+      }
+    );
+
   }
 
 });
